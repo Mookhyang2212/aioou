@@ -34,9 +34,9 @@ class SpotifyDL:
     async def start(self, link, bot, update, r_id, u_name):
         type_id, link_type = await self.parse_url(link)
         if link_type == 'track':
-            await self.getTrack(bot, update, r_id, u_name, type_id)
+            await self.get_Track(bot, update, r_id, u_name, type_id)
         elif link_type == 'album':
-            await self.getAlbum(type_id, bot, update, r_id, u_name)
+            await self.get_Album(type_id, bot, update, r_id, u_name)
 
     async def getTrack(self, bot, update, r_id, u_name, track_id=None):
         err = None
@@ -49,12 +49,12 @@ class SpotifyDL:
         await self.downloadTrack(track_id, metadata, quality, bot, update, r_id, u_name)
 
 
-    async def getAlbum(self, album_id, bot, update, r_id, u_name):
+    async def get_Album(self, album_id, bot, update, r_id, u_name):
         album_data = await spotify.get_album_name(album_id)
         metadata, _ = await self.get_metadata(album_data, 'album')
         await self.post_cover(metadata, bot, update, r_id, u_name)
         for track in album_data['tracks']['items']:
-            await self.getTrack(bot, update, r_id, u_name, track['id'])
+            await self.get_Track(bot, update, r_id, u_name, track['id'])
             await asyncio.sleep(5)
         
 
