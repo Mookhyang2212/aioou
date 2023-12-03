@@ -28,7 +28,7 @@ async def download_track(bot, update):
             return await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.ERR_NO_LINK,
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
             
         if link:
@@ -45,7 +45,7 @@ async def download_track(bot, update):
             await LOGGER.info(f"Download Initiated By - {user['name']} - {provider.upper()}")
 
             msg = await send_message(user, lang.START_DOWNLOAD)
-            user['bot_msg'] = msg.message_id
+            user['bot_msg'] = msg.id
 
             user_settings.set_var(update.chat.id, "ON_TASK", True)
             try:
@@ -67,7 +67,7 @@ async def download_track(bot, update):
                 await bot.send_message(
                     chat_id=update.chat.id,
                     text=str(e),
-                    reply_to_message_id=update.message_id
+                    reply_to_message_id=update.id
                 )
             user_settings.set_var(update.chat.id, "ON_TASK", False)
 
