@@ -34,12 +34,12 @@ class SpotifyDL:
     async def start(self, link, user):
         type_id, link_type = await self.parse_url(link)
         if link_type == 'track':
-            await self.getTrack(type_id, user)
+            await self.get_Track(type_id, user)
         elif link_type == 'album':
-            await self.getAlbum(type_id, user)
+            await self.get_Album(type_id, user)
 
 
-    async def getTrack(self, track_id, user, type='track'):
+    async def get_Track(self, track_id, user, type='track'):
         err = None
         quality = spotify.quality
         data, err = await spotify.get_song_info(track_id)
@@ -53,7 +53,7 @@ class SpotifyDL:
         await self.downloadTrack(track_id, metadata, quality, user, type)
 
 
-    async def getAlbum(self, album_id, user):
+    async def get_Album(self, album_id, user):
         album_data = await spotify.get_album_name(album_id)
         metadata, _ = await self.get_metadata(album_data, 'album')
         
