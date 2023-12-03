@@ -24,11 +24,11 @@ async def download_track(bot, update):
             else:
                 link = update.text.split(" ", maxsplit=1)[1]
                 reply = False
-        except:
+        except IndexError:
             return await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.ERR_NO_LINK,
-                reply_to_message_id=update.id
+                reply_to_message_id=update.message_id
             )
             
         if link:
@@ -45,7 +45,7 @@ async def download_track(bot, update):
             await LOGGER.info(f"Download Initiated By - {user['name']} - {provider.upper()}")
 
             msg = await send_message(user, lang.START_DOWNLOAD)
-            user['bot_msg'] = msg.id
+            user['bot_msg'] = msg.message_id
 
             user_settings.set_var(update.chat.id, "ON_TASK", True)
             try:
@@ -63,13 +63,13 @@ async def download_track(bot, update):
                 await bot.delete_messages(update.chat.id, user['bot_msg'])
                 await send_message(user, lang.TASK_COMPLETED)
             except Exception as e:
-                await LOGGER.error(e, user)
-                """await bot.send_message(
+                await LOGGER.error(str(e), user)
+                await bot.send_message(
                     chat_id=update.chat.id,
-                    text=e,
-                    reply_to_message_id=update.id
-                )"""
+                    text=str(e),
+                    reply_to_message_id=update.message_id
+                )
             user_settings.set_var(update.chat.id, "ON_TASK", False)
 
             await clean_up(user['r_id'], provider)
-            
+                    
