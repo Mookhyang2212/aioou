@@ -32,14 +32,6 @@ class SpotifyAPI:
         except requests.RequestException as e:
             # Log the exception or raise a specific exception for better debugging
             pass
-def handle_quality(self, data=None):
-        'Sets quality if input given else returns cuurent quality'
-        if data == 160: self.quality = AudioQuality.HIGH
-        elif data == 320: self.quality = AudioQuality.VERY_HIGH
-        else:
-            if spotify.quality == AudioQuality.HIGH:
-                return 160
-            else: return 320
     
     async def get_album_name(self, album_id):
         """Get information about a Spotify album."""
@@ -52,6 +44,15 @@ def handle_quality(self, data=None):
         except requests.RequestException as e:
             # Log the exception or raise a specific exception for better debugging
             pass
+            
+      def handle_quality(self, data=None):
+        'Sets quality if input given else returns cuurent quality'
+        if data == 160: self.quality = AudioQuality.HIGH
+        elif data == 320: self.quality = AudioQuality.VERY_HIGH
+        else:
+            if spotify.quality == AudioQuality.HIGH:
+                return 160
+            else: return 320      
 
 # Instantiate the SpotifyAPI class
 spotify = SpotifyAPI()
