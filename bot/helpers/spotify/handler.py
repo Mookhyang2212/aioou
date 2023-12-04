@@ -67,6 +67,14 @@ class SpotifyDL:
                 await asyncio.sleep(5)
             except Exception as e:
                 await LOGGER.error(e, user)
+                    
+        async def get_Album(self, album_id, bot, update, r_id, u_name):
+        album_data = await spotify.get_album_name(album_id)
+        metadata, _ = await self.get_metadata(album_data, 'album')
+        await self.post_cover(metadata, bot, update, r_id, u_name)
+        for track in album_data['tracks']['items']:
+            await self.get_Track(bot, update, r_id, u_name, track['id'])
+            await asyncio.sleep(5)
 
 
     async def downloadTrack(self, track_id, metadata, quality, user, type):
